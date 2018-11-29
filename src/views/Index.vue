@@ -6,7 +6,10 @@
         <h1 class="text-white" style="margin-bottom: 95px">高雄旅遊資訊</h1>
         <div class="row justify-content-center">
           <div class="col-sm-6">
-            <select name="" id="" class="form-control input-lg"></select>
+            <select name="" id="" class="form-control input-lg">
+              <option value="">--請選擇行政區--</option>
+              <option :value="zone" v-for="zone in zones" :key="zone">{{zone}}</option>
+            </select>
           </div>
         </div>
       </div>
@@ -84,6 +87,9 @@ export default {
     ...mapActions(['getZones', 'getData']),
     goPage(page) {
       this.$store.dispatch('goPage', page);
+    },
+    selectZone(zone) {
+      this.$store.dispatch('selectZone', zone);
     },
   },
   computed: {
