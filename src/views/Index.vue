@@ -6,9 +6,9 @@
         <h1 class="text-white" style="margin-bottom: 95px">高雄旅遊資訊</h1>
         <div class="row justify-content-center">
           <div class="col-sm-6">
-            <select name="" id="" class="form-control input-lg">
+            <select name="" id="" class="form-control input-lg" v-model="selectedZone" @change="changeZone">
               <option value="">--請選擇行政區--</option>
-              <option :value="zone" v-for="zone in zones" :key="zone">{{zone}}</option>
+              <option v-for="zone in zones" :value="zone" :key="zone">{{zone}}</option>
             </select>
           </div>
         </div>
@@ -20,7 +20,7 @@
           <div class="col-10">
             <div class="bg-white p-3 shadow-sm">
               <h4>熱門行政區</h4>
-              <button class="btn btn-primary px-4">苓雅區</button>
+              <button class="btn btn-primary px-4" @click="selectZone('苓雅區')">苓雅區</button>
             </div>
           </div>
         </div>
@@ -30,9 +30,11 @@
       <hr class="my-5">
       <section>
         <div class="row">
-          <div class="col-sm-6">
+          <div class="col-sm-6" v-for="item in data" :key="item.Id">
             <div class="card shadow-sm border-0">
-              <div class="card-header bg-cover" style="height: 155px; background-image: url(https://images.unsplash.com/photo-1514540344452-642d604143a2?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=73b8449846b0c8f33bb3ba221b459ea0&auto=format&fit=crop&w=634&q=80)">
+              <div class="card-header bg-cover"
+                   style="height: 155px;"
+                   :style="{backgroundImage: 'url(' + item.Picture1 + ')'}">
               </div>
               <div class="card-body ">
                 <ul class="list-unstyled mb-0">
@@ -40,22 +42,22 @@
                     <div class="text-center" style="width: 30px">
                       <i class="fas fa-clock text-primary"></i>
                     </div>
-                    週二至週日10:00-18:00，每週一公休</li>
+                    {{item.Opentime}}</li>
                   <li class="d-flex">
                     <div class="text-center" style="width: 30px">
                       <i class="fas fa-map-marker text-warning"></i>
                     </div>
-                    高雄市三民區建國二路318號</li>
+                    {{item.Add}}</li>
                   <li class="d-flex">
                     <div class="text-center" style="width: 30px">
                       <i class="fas fa-mobile-alt text-info"></i>
                     </div>
-                    886-7-2363357</li>
+                    {{item.Tel}}</li>
                   <li class="d-flex">
                     <div class="text-center" style="width: 30px">
                       <i class="fas fa-ticket-alt text-success"></i>
                     </div>
-                    Free</li>
+                    {{item.Ticketinfo}}</li>
                 </ul>
               </div>
             </div>
@@ -76,9 +78,13 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import Pagination from '../components/Pagination.vue';
 
 export default {
   name: 'Index',
+  components: {
+    Pagination,
+  },
   data() {
     return {
     };
@@ -88,12 +94,15 @@ export default {
     goPage(page) {
       this.$store.dispatch('goPage', page);
     },
+    changeZone(ele) {
+      this.selectZone(ele.target.value);
+    },
     selectZone(zone) {
       this.$store.dispatch('selectZone', zone);
     },
   },
   computed: {
-    ...mapGetters(['isLoading', 'zones', 'data', 'pagination']),
+    ...mapGetters(['isLoading', 'zones', 'data', 'selectedZone', 'pagination']),
   },
   created() {
     this.getZones();
@@ -106,7 +115,7 @@ export default {
   .header {
     padding-top: 90px;
     padding-bottom: 120px;
-    background-image: url(/images/the-urban-landscape-1698285.png);
+    background-image: url(../assets/the-urban-landscape-1698285.png);
     background-size: cover;
     background-position: center center;
   }
