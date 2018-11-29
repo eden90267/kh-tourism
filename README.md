@@ -1,4 +1,4 @@
-# kh-tourism
+# 高雄旅遊資訊網
 
 ## Project setup
 ```
