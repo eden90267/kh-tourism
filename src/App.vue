@@ -1,6 +1,10 @@
 <template>
   <div id="app">
     <Index/>
+    <footer class="text-center bg-info text-white py-4">
+      <div>高雄旅遊網</div>
+      <div>資料來源：高雄市政府</div>
+    </footer>
   </div>
 </template>
 

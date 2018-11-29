@@ -1,5 +1,6 @@
 <template>
-  <div id="index">
+  <div>
+    <Loading :active.sync="isLoading"></Loading>
     <header class="header">
       <div class="container text-center">
         <h1 class="text-white" style="margin-bottom: 95px">高雄旅遊資訊</h1>
@@ -58,39 +59,39 @@
           </div>
         </div>
       </section>
-      <nav class="my-5" aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-          <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1">Previous</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">1</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">2</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">3</a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="#">Next</a>
-          </li>
-        </ul>
-      </nav>
+      <div class="d-flex justify-content-center my-5">
+        <Pagination :current-page="pagination.currentPage"
+                    :total-pages="pagination.totalPage"
+                    :has-pre="pagination.hasPre"
+                    :has-next="pagination.hasNext"
+                    @gopage="goPage">
+        </Pagination>
+      </div>
     </div>
-
-    <footer class="text-center bg-info text-white py-4">
-      <div>高雄旅遊網</div>
-      <div>資料來源：高雄市政府</div>
-    </footer>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
   name: 'Index',
   data() {
-    return {};
+    return {
+    };
+  },
+  methods: {
+    ...mapActions(['getZones', 'getData']),
+    goPage(page) {
+      this.$store.dispatch('goPage', page);
+    },
+  },
+  computed: {
+    ...mapGetters(['isLoading', 'zones', 'data', 'pagination']),
+  },
+  created() {
+    this.getZones();
+    this.getData();
   },
 };
 </script>
