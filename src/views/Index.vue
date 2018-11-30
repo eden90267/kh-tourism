@@ -87,6 +87,7 @@ export default {
   },
   data() {
     return {
+      selectedZone: '',
     };
   },
   methods: {
@@ -98,11 +99,12 @@ export default {
       this.selectZone(ele.target.value);
     },
     selectZone(zone) {
-      this.$store.dispatch('selectZone', zone);
+      this.selectedZone = zone;
+      this.$store.dispatch('selectZone', this.selectedZone);
     },
   },
   computed: {
-    ...mapGetters(['isLoading', 'zones', 'data', 'selectedZone', 'pagination']),
+    ...mapGetters(['isLoading', 'zones', 'data', 'pagination']),
   },
   created() {
     this.getZones();

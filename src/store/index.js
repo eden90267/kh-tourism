@@ -35,7 +35,7 @@ export default {
           context.commit('DATA', res.data.result.records);
           context.commit('PAGINATION', {
             ...pagination,
-            total: res.data.result.total,
+            total: res.data.result.total ? res.data.result.total : 0,
           });
           context.commit('LOADING', false, { root: true });
         });
